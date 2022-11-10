@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minghui.commons.dao.WebPayChannelDao">
+
+    <resultMap id="BaseResultMap" type="com.minghui.commons.entity.WebPayChannel">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="channelCode" column="channel_code" jdbcType="VARCHAR"/>
+            <result property="channelName" column="channel_name" jdbcType="VARCHAR"/>
+            <result property="merchantCode" column="merchant_code" jdbcType="VARCHAR"/>
+            <result property="minAmount" column="min_amount" jdbcType="DECIMAL"/>
+            <result property="maxAmount" column="max_amount" jdbcType="DECIMAL"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,channel_code,channel_name,
+        merchant_code,min_amount,max_amount,
+        status,create_time,modify_time
+    </sql>
+</mapper>

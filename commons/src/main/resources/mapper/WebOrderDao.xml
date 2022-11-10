@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.minghui.commons.dao.WebOrderDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.minghui.commons.entity.WebOrderEntity" id="webOrderMap">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="amount" column="amount"/>
+        <result property="income" column="income"/>
+        <result property="virtualIncome" column="virtual_income"/>
+        <result property="productName" column="product_name"/>
+        <result property="productUrl" column="product_url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="agent" column="agent"/>
+        <result property="agentNode" column="agent_node"/>
+        <result property="agentLevel" column="agent_level"/>
+    </resultMap>
+
+
+</mapper>

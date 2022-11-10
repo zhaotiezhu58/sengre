@@ -1,0 +1,14 @@
+server:
+  port: 8523
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://rm-bp1agn4zpwa12b600ao.mysql.rds.aliyuncs.com:3306/financial?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&allowMultiQueries=true
+      username: tiezhu
+      password: t4Kjm$Ov^K#YavWE
+  redis:
+    host: r-bp1osb83czte5f2e31pd.redis.rds.aliyuncs.com
+    port: 6379
+    password: ^AtN9HoWOt8169sC

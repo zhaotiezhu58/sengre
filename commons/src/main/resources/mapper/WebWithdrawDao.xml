@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minghui.commons.dao.WebWithdrawDao">
+
+    <resultMap id="BaseResultMap" type="com.minghui.commons.entity.WebWithdraw">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="merchantCode" column="merchant_code" jdbcType="VARCHAR"/>
+            <result property="channelCode" column="channel_code" jdbcType="VARCHAR"/>
+            <result property="amount" column="amount" jdbcType="DECIMAL"/>
+            <result property="realAmount" column="real_amount" jdbcType="DECIMAL"/>
+            <result property="virtualAmount" column="virtual_amount" jdbcType="DECIMAL"/>
+            <result property="virtualRealAmount" column="virtual_real_amount" jdbcType="DECIMAL"/>
+            <result property="fee" column="fee" jdbcType="DECIMAL"/>
+            <result property="payOrderNo" column="pay_order_no" jdbcType="VARCHAR"/>
+            <result property="paySign" column="pay_sign" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="errMsg" column="err_msg" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="agent" column="agent" jdbcType="VARCHAR"/>
+            <result property="agentNode" column="agent_node" jdbcType="VARCHAR"/>
+            <result property="agentLevel" column="agent_level" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,order_no,user_name,
+        merchant_code,channel_code,amount,
+        real_amount,virtual_amount,virtual_real_amount,
+        fee,pay_order_no,pay_sign,
+        type,err_msg,create_time,
+        modify_time,status,agent,
+        agent_node,agent_level
+    </sql>
+</mapper>

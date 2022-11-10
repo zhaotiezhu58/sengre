@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minghui.commons.dao.WebTopupDao">
+
+    <resultMap id="BaseResultMap" type="com.minghui.commons.entity.WebTopup">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="amount" column="amount" jdbcType="DECIMAL"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="paySign" column="pay_sign" jdbcType="VARCHAR"/>
+            <result property="payOrderNo" column="pay_order_no" jdbcType="VARCHAR"/>
+            <result property="payCurreny" column="pay_curreny" jdbcType="INTEGER"/>
+            <result property="ip" column="ip" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,order_no,user_name,
+        amount,type,pay_sign,
+        pay_order_no,pay_curreny,ip,
+        create_time,modify_time,status
+    </sql>
+</mapper>

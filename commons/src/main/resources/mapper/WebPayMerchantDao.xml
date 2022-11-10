@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minghui.commons.dao.WebPayMerchantDao">
+
+    <resultMap id="BaseResultMap" type="com.minghui.commons.entity.WebPayMerchant">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="merchantCode" column="merchant_code" jdbcType="VARCHAR"/>
+            <result property="merchantName" column="merchant_name" jdbcType="VARCHAR"/>
+            <result property="merchantKey" column="merchant_key" jdbcType="VARCHAR"/>
+            <result property="topUrl" column="top_url" jdbcType="VARCHAR"/>
+            <result property="withdrawUrl" column="withdraw_url" jdbcType="VARCHAR"/>
+            <result property="topupNotifyUrl" column="topup_notify_url" jdbcType="VARCHAR"/>
+            <result property="withdrawNotifyUrl" column="withdraw_notify_url" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,merchant_code,merchant_name,
+        merchant_key,top_url,withdraw_url,
+        topup_notify_url,withdraw_notify_url,status,
+        create_time,modify_time
+    </sql>
+</mapper>

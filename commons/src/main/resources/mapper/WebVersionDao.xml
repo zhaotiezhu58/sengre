@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minghui.commons.dao.WebVersionDao">
+
+    <resultMap id="BaseResultMap" type="com.minghui.commons.entity.WebVersion">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="appVersion" column="app_version" jdbcType="VARCHAR"/>
+            <result property="appUrl" column="app_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,app_version,app_url
+    </sql>
+</mapper>

@@ -1,0 +1,15 @@
+server:
+  port: 9522
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://rm-5tswj481848yl5ecx.mysql.ap-southeast-6.rds.aliyuncs.com:3306/sengre?useUnicode=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&allowMultiQueries=true
+      username: mphpuser
+      password: Php@mysql13579
+  redis:
+    host: r-5tsi8mjzurfncau5yp.redis.ap-southeast-6.rds.aliyuncs.com
+    port: 6379
+    password: Php@redis13579
+    database: 1
