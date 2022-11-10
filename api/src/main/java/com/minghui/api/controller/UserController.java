@@ -1,15 +1,8 @@
 package com.minghui.api.controller;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Date;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Validator;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -25,12 +18,10 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.google.zxing.common.BitMatrix;
 import com.minghui.api.controller.pojo.CommissionDetail;
 import com.minghui.api.controller.pojo.CommissionRank;
 import com.minghui.api.controller.pojo.TeamCommission;
 import com.minghui.api.controller.request.*;
-import com.minghui.api.exception.RRException;
 import com.minghui.api.utils.JwtUtils;
 import com.minghui.api.utils.PhoneUtil;
 import com.minghui.commons.constants.Constant;
@@ -53,9 +44,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -989,7 +982,7 @@ public class UserController {
                         .in(WebWithdraw::getStatus, Arrays.asList(2, -1))
                         .between(WebWithdraw::getCreateTime, DateUtil.beginOfDay(now), DateUtil.endOfDay(now))
         );
-        if (dayCount >= org.apache.commons.lang.math.NumberUtils.toInt(withdrawCountStr, 3)) {
+        if (dayCount >= NumberUtils.toInt(withdrawCountStr, 3)) {
             return R.error(MsgUtil.get("error.20003"));
         }
 
