@@ -94,23 +94,10 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -151,8 +138,8 @@
                 </executions>
                 <configuration>
                     <!--指定生成的镜像名-->
-<!--                    <imageName>registry.cn-hangzhou.aliyuncs.com/zhaotiezhu/sengre-api</imageName>-->
-                    <imageName>registry-intl.ap-southeast-1.aliyuncs.com/xiangcai/sengre-api</imageName>
+                    <!--                    <imageName>registry.cn-hangzhou.aliyuncs.com/zhaotiezhu/sengre-api</imageName>-->
+                    <imageName>${docker.url}/sengre/api</imageName>
                     <!--指定标签-->
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
@@ -160,7 +147,7 @@
                     <!-- 指定 Dockerfile 路径-->
                     <dockerDirectory>${project.basedir}</dockerDirectory>
                     <!--指定远程 docker api地址-->
-                    <dockerHost>http://47.97.193.18:2375</dockerHost>
+                    <dockerHost>http://8.218.97.208:2375</dockerHost>
                     <!-- 这里是复制 jar 包到 docker 容器指定目录配置 -->
                     <resources>
                         <resource>

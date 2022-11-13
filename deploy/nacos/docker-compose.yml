@@ -12,11 +12,11 @@ services:
       - TZ=Asia/Shanghai
       - MODE=standalone
       - SPRING_DATASOURCE_PLATFORM=mysql
-      - MYSQL_SERVICE_HOST=sport-prod.crx8b9vznuyu.ap-east-1.rds.amazonaws.com
-      - MYSQL_SERVICE_PORT=25794
-      - MYSQL_SERVICE_USER=tel_user
-      - MYSQL_SERVICE_PASSWORD=smrR%$ma8eegDfXZ
-      - MYSQL_SERVICE_DB_NAME=tel_nacos
+      - MYSQL_SERVICE_HOST=rm-3ns6uqke633926jph.mysql.rds.aliyuncs.com
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_USER=nacos
+      - MYSQL_SERVICE_PASSWORD=oBi&G%f#fL43R58S
+      - MYSQL_SERVICE_DB_NAME=nacos
       - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=10000&socketTimeout=3000&autoReconnect=true&useSSL=false&serverTimezone=UTC
       - JVM_XMS=512m
       - JVM_XMX=1024m

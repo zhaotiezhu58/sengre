@@ -9,16 +9,16 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: @profiles.nacosAddr@
-        namespace: @profiles.namespace@
+        server-addr: 8.218.97.208:8848
+        namespace: 1a2201f4-4596-43d2-88cc-6473251242c9
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
-        namespace: @profiles.namespace@
+        namespace: ${spring.cloud.nacos.discovery.namespace}
         file-extension: yml
         shared-configs:
           - sharedConfiguration-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
-    active: @profiles.active@
+    active: test
   main:
     allow-bean-definition-overriding: true
 

@@ -20,8 +20,6 @@ import com.minghui.commons.service.WebUserService;
 import com.minghui.commons.service.WebVirtualRecordService;
 import com.minghui.commons.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.mockito.internal.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

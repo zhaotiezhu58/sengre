@@ -58,6 +58,8 @@
         <libphone.version>8.12.44</libphone.version>
         <spring-cloud.version>2020.0.6</spring-cloud.version>
         <spring-cloud.alibaba.version>2021.0.4.0</spring-cloud.alibaba.version>
+
+        <docker.url>registry-intl.cn-hongkong.aliyuncs.com</docker.url>
     </properties>
 
     <dependencyManagement>
@@ -78,46 +80,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <!-- 多环境配置 -->
-    <profiles>
-        <!-- 本地环境 -->
-        <profile>
-            <id>local</id>
-            <properties>
-                <profiles.active>local</profiles.active>
-                <profiles.nacosAddr>127.0.0.1:8848</profiles.nacosAddr>
-                <profiles.namespace>9c98ed3e-a688-495d-942f-2df0d054545a</profiles.namespace>
-            </properties>
-        </profile>
-        <!-- 开发环境 -->
-        <profile>
-            <id>dev</id>
-            <properties>
-                <profiles.active>dev</profiles.active>
-                <profiles.nacosAddr>10.39.1.81:8848</profiles.nacosAddr>
-                <profiles.namespace>fc5d94c2-d259-4eb0-a12d-821a8d5d03cd</profiles.namespace>
-            </properties>
-        </profile>
-        <!-- 测试环境 -->
-        <profile>
-            <id>test</id>
-            <properties>
-                <profiles.active>test</profiles.active>
-                <profiles.nacosAddr>16.162.0.78:8848</profiles.nacosAddr>
-                <profiles.namespace>c9d8c181-5bc3-4075-91b4-d66557988dd9</profiles.namespace>
-            </properties>
-        </profile>
-        <!-- 正式环境 -->
-        <profile>
-            <id>pro</id>
-            <properties>
-                <profiles.active>pro</profiles.active>
-                <profiles.nacosAddr>10.141.49.202:8848</profiles.nacosAddr>
-                <profiles.namespace>ac7f2202-8644-4a0a-801f-d4d727c17c8d</profiles.namespace>
-            </properties>
-        </profile>
-    </profiles>
 
     <repositories>
         <repository>
