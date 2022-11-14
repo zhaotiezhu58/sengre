@@ -1,5 +1,5 @@
 FROM openjdk:8
-EXPOSE 9522
+EXPOSE 9511
 VOLUME /tmp
 ADD task.jar /app.jar
 RUN bash -c 'touch /app.jar'

@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:8
 EXPOSE 9544
 VOLUME /tmp
 ADD callback.jar /app.jar

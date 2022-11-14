@@ -1,6 +1,5 @@
-FROM java:8
+FROM openjdk:8
 EXPOSE 8533
-
 VOLUME /tmp
 ADD admin.jar  /app.jar
 RUN bash -c 'touch /app.jar'
