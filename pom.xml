@@ -61,6 +61,11 @@
 
         <docker.url>registry-intl.cn-hongkong.aliyuncs.com</docker.url>
         <docker.host>http://8.218.97.208:2375</docker.host>
+
+        <admin.version>1.0.0</admin.version>
+        <api.version>1.0.0</api.version>
+        <callback.version>1.0.0</callback.version>
+        <task.version>1.0.0</task.version>
     </properties>
 
     <dependencyManagement>

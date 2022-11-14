@@ -10,7 +10,7 @@
 
     <groupId>com.minghui</groupId>
     <artifactId>task</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${task.version}</version>
     <name>task</name>
     <description>task</description>
     <packaging>jar</packaging>

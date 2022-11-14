@@ -10,7 +10,7 @@
 
     <groupId>com.minghui</groupId>
     <artifactId>callback</artifactId>
-    <version>1.0.2</version>
+    <version>${callback.version}</version>
     <name>callback</name>
     <description>callback</description>
     <packaging>jar</packaging>
