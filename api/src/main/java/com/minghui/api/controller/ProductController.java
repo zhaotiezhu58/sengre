@@ -123,7 +123,7 @@ public class ProductController {
         if (StringUtils.isNotEmpty(userName)) {
             //List<WebLevelEntity> vips = webLevelService.list(new QueryWrapper<WebLevelEntity>().lambda().eq(WebLevelEntity::getLevelType, 2).orderByAsc(WebLevelEntity::getLevelValue));
             List<WebLevelEntity> vips = webLevelService.getLevelsByType(2);
-            // 查询下级充值量
+            // 查询下级充值量1
             List<WebDayReportEntity> reports = webDayReportService.list(new QueryWrapper<WebDayReportEntity>().lambda().eq(WebDayReportEntity::getAgent, userName));
             double totalTopup = reports.stream().mapToDouble(report -> report.getTopUp().doubleValue()).sum();
             for (WebLevelEntity vip : vips) {
