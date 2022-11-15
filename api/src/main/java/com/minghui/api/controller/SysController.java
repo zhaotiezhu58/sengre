@@ -94,7 +94,12 @@ public class SysController {
     @GetMapping("/config")
     public R config() throws Exception {
         List<WebParamsEntity> list = webParamsService.getAll();
-        Map<String,String> paramsMap = list.stream().collect(Collectors.toMap(WebParamsEntity::getParamsKey,WebParamsEntity::getParamsValue));
+
+        Map<String,String> paramsMap = new HashMap<>();
+        for (WebParamsEntity params : list) {
+            paramsMap.put(params.getParamsKey(), params.getParamsValue());
+        }
+        //Map<String,String> paramsMap = list.stream().collect(Collectors.toMap(WebParamsEntity::getParamsKey,WebParamsEntity::getParamsValue));
 
         String enable_home_notice = paramsMap.get("enable_home_notice");
 
