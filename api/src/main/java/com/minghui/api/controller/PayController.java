@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -121,32 +122,57 @@ public class PayController {
                         .eq(WebPayMerchant::getMerchantCode, channel.getMerchantCode())
         );
 
-        BigDecimal amount = new BigDecimal(request.getAmount());
+        String cusName=StringUtils.length(userName)>=4?StringUtils.substring(userName,StringUtils.length(userName)-4):"xxxx";
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        String amount = df.format(Double.parseDouble(request.getAmount()));
+        String currency = "USD";
+        String coinCode = "USDT";
+        String orderId = IdUtils.randomId();;
+        String productName = "AMZNWORK";
+        String customerId = cusName;
+        String notifyUrl = merchant.getTopupNotifyUrl();
+        String redirectUrl = "";
+        String locale = "en-US";
+        String publicKey = "57DAC61F1D6B4B0C8CC19B1728364560";
+        String privateKey = merchant.getMerchantKey();
+
+        String signatureStr = amount +
+                currency +
+                coinCode +
+                orderId +
+                productName +
+                customerId +
+                notifyUrl +
+                redirectUrl +
+                locale +
+                publicKey +
+                privateKey;
+        String sign = SecureUtil.md5(signatureStr).toLowerCase();
+
         // 调用接口
         Map<String, Object> params = new TreeMap<>();
-        params.put("merchantId", merchant.getMerchantCode()); // 商户号
-        params.put("userId", userName); // 用户ID  商户系统唯一，不可随机
-        params.put("payMethod", channel.getChannelCode()); // 支付通道  联系客服获取
-        params.put("money", NumberUtil.mul(amount, 100)); // 金额
-        String orderNo = IdUtils.randomId();
-        params.put("bizNum", orderNo); // 商户订单号
-        params.put("notifyAddress", merchant.getTopupNotifyUrl()); // 异步回调地址
-        params.put("type", "recharge"); // 'recharge', 固定值
-        params.put("name", null); // 付款人姓名 如支付通道为INR通道必填
-        params.put("mobile", null); // 付款人手机 如支付通道为INR通道必填
-        params.put("email", null); // 付款人邮箱 如支付通道为INR通道必填
-        params.put("ip", ServletUtil.getClientIP(httpServletRequest)); // ip
+        params.put("amount", amount); // 订单金额
+        params.put("currency", currency); // 订单币种单位。支持：CNY、USD
+        params.put("coin_code", coinCode); // 订单支付币种。固定为 USDT
+        params.put("order_id", orderId); // 商户端订单号，在通知商户接口时，会带上这个参数
+
+        params.put("product_name", productName); // 商户端产品名称，会显示在官方收银台页面顶部，留空则显示默认值
+
+        params.put("customer_id", customerId); // 商户端用户编号，可以为用户名，也可以为数据库中的用户编号。取用户手机号 后4位
+        params.put("notify_url", notifyUrl); // 完成后回调通知地址
+        params.put("redirect_url", redirectUrl); // 完成后同步跳转地址
+        params.put("locale", locale); // 收银台多语言，中文（zh-CN），英文（en-US），默认为中文
+        params.put("public_key", publicKey); // 商户 public key
+        params.put("signature", sign); // 签名串，安全校验签名串。
         StringBuilder sb = new StringBuilder();
         for (String key : params.keySet()) {
             if (null != params.get(key)) {
                 sb.append(key).append("=").append(params.get(key)).append("&");
             }
         }
-
         String queryStr = sb.substring(0, sb.length() - 1);
-        String queryStr1 = sb + "key=" + merchant.getMerchantKey();
-        String sign = SecureUtil.md5(queryStr1);
-        queryStr += "&sign=" + sign.toUpperCase(Locale.ROOT);
+
         String url = merchant.getTopUrl() + "?" + queryStr;
         HttpRequest requestPost = HttpUtil.createPost(url);
         //System.out.println(requestPost);
@@ -164,9 +190,10 @@ public class PayController {
         }
         Date date = new Date();
         JSONObject data = obj.getJSONObject("data");
-        payUrl = data.getString("url");
+        payUrl = data.getString("cashier_url");
 
-        BigDecimal realAmount = amount;
+        BigDecimal realAmount = new BigDecimal(amount);
+
         if (channel.getPayType().intValue() == 2) {
             // 充U汇率
             String rate = webParamsService.getParamsValue("usdt_exchange_rate");
@@ -174,13 +201,13 @@ public class PayController {
         }
 
         WebTopup topup = new WebTopup();
-        topup.setOrderNo(orderNo);
+        topup.setOrderNo(orderId);
         topup.setUserName(userName);
-        topup.setAmount(amount);
+        topup.setAmount(new BigDecimal(data.getString("amount")));
         topup.setRealAmount(realAmount);
         topup.setType(channel.getPayType());
-        topup.setPaySign(sign);
-        topup.setPayOrderNo(data.getString("sysBizNum"));
+        topup.setPaySign(sign);//未回调时，先保存订单的签名，回调成功后，将被改成USDT转账的hash值
+        topup.setPayOrderNo(data.getString("token"));//三方没有订单号，但这个值可以查询订单是否支付完成
         topup.setPayCurreny(channel.getPayType());
         topup.setIp(ServletUtil.getClientIP(httpServletRequest));
         topup.setMerchantCode(channel.getMerchantCode());

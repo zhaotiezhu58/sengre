@@ -73,33 +73,43 @@ public class TopupCallbackController {
         Date now = new Date();
         String body = IoUtil.readUtf8(httpServletRequest.getInputStream());
         log.info("回调参数:{}", body);
-        //String body = "{\"curreny\": \"inr\"," +
-        //        "\"merchantBizNum\": \"1529494893104336896\"," +
-        //        "\"merchantId\": \"U1002\"," +
-        //        "\"money\": \"500\"," +
-        //        "\"orderMoney\": \"100\"," +
-        //        "\"sign\": \"3e4cb63aefba9075727dc80905ca4419\"," +
-        //        "\"status\": \"1\"," +
-        //        "\"sysBizNum\": \"PUSDT8522841267865\"}";
-        JSONObject data = JSONObject.parseObject(body);
+        /*
+        {
+            "transaction_token": "40b2ac118c8e4f0aab5219ceac0e3da8",
+                "order_id": "ZGbqEadw1puEgDeU",
+                "amount": "200.00",
+                "currency": "CNY",
+                "coin_code": "USDT",
+                "coin_amount": "31.42",
+                "hash": "71f36f7c3eb073a24d0d3e49af6990928a2ae04764c06c07d414acd3f743ae9c",
+                "signature": "526517f4603f25ab9ab686c1730f17b5"
+        }
+        */
 
-        // 订单号
-        String merchantBizNum = data.getString("merchantBizNum");
-        // 签名
-        String sign = data.getString("sign");
-        WebTopup topup = webTopupService.getOne(new QueryWrapper<WebTopup>().lambda().eq(WebTopup::getOrderNo, merchantBizNum).eq(WebTopup::getStatus, 1));
+        JSONObject data = JSONObject.parseObject(body);
+        String transactionToken = data.getString("transaction_token");
+        String orderId = data.getString("order_id");// 订单号
+        String amount = data.getString("amount");
+        String currency = data.getString("currency");
+        String coinCode = data.getString("coin_code");
+        String coinAmount = data.getString("coin_amount");
+        String hash = data.getString("hash");//交易的hash值
+        String sign = data.getString("signature");// 签名
+
+        WebTopup topup = webTopupService.getOne(new QueryWrapper<WebTopup>().lambda().eq(WebTopup::getOrderNo, orderId).eq(WebTopup::getStatus, 1));
         if (topup == null) {
             throw new Exception("未匹配订单");
         }
-        //if (!StringUtils.equals(sign.toLowerCase(), topup.getPaySign().toLowerCase())) {
-        //    throw new Exception("签名不一样");
-        //}
-        Integer status = data.getInteger("status");
-        if (status.intValue() != 1) {
+
+        if (StringUtils.isBlank(hash)) {
             return "error";
         }
 
-        BigDecimal orderMoney = data.getBigDecimal("money");
+        //验证数据安全性，目前验证不了，要验证必须查商户表取私钥
+        /* String signTmp = transactionToken + orderId + amount + currency + coinCode + coinAmount + hash + private key;
+         */
+
+        BigDecimal orderMoney = new BigDecimal(amount);
         if (topup.getAmount().doubleValue() != orderMoney.doubleValue()) {
             //// 订单金额与实际付款金额不符11
             topup.setRealAmount(orderMoney);
@@ -114,18 +124,23 @@ public class TopupCallbackController {
         Date date = new Date();
         WebUserEntity user = webUserService.getUser(topup.getUserName());
 
-        // 修改订单状态
+        // 修改订单状态,其中pay_sign存储交易成功的hash值,pay_order_no存储用于核实用户是否支付成功的标识
         boolean update = webTopupService.update(
                 new UpdateWrapper<WebTopup>().lambda()
                         .eq(WebTopup::getId, topup.getId())
                         .eq(WebTopup::getStatus, 1)
                         .set(WebTopup::getStatus, 2)
                         .set(WebTopup::getModifyTime, now)
+                        .set(WebTopup::getAmount, topup.getAmount())
                         .set(WebTopup::getRealAmount, topup.getRealAmount())
+                        .set(WebTopup::getPaySign, hash)
+                        .set(WebTopup::getPayOrderNo,transactionToken)
         );
         if (!update) {
             throw new Exception("修改订单失败");
         }
+
+        /**以下代码没有修改*/
 
         List<WebFundRecordEntity> funds = new ArrayList<>();
         // 添加充值流水
