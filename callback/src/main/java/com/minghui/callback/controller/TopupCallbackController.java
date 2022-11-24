@@ -74,7 +74,6 @@ public class TopupCallbackController {
         log.info("回调参数:{}", paramMap);
 
 //        JSONObject data = JSONObject.parseObject(body);
-        MapUtil.getStr(paramMap, "transaction_token");
         String transactionToken = MapUtil.getStr(paramMap, "transaction_token");
         String orderId = MapUtil.getStr(paramMap, "order_id");// 订单号
         String amount = MapUtil.getStr(paramMap, "amount");
