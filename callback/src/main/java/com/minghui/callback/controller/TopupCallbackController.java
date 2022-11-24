@@ -1,6 +1,7 @@
 package com.minghui.callback.controller;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -23,10 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Api(value = "回调支付相关", tags = "回调支付")
@@ -70,31 +68,21 @@ public class TopupCallbackController {
             throw new Exception("异常IP访问");
         }
 
+        Map<String, String> paramMap = ServletUtil.getParamMap(httpServletRequest);
         Date now = new Date();
-        String body = IoUtil.readUtf8(httpServletRequest.getInputStream());
-        log.info("回调参数:{}", body);
-        /*
-        {
-            "transaction_token": "40b2ac118c8e4f0aab5219ceac0e3da8",
-                "order_id": "ZGbqEadw1puEgDeU",
-                "amount": "200.00",
-                "currency": "CNY",
-                "coin_code": "USDT",
-                "coin_amount": "31.42",
-                "hash": "71f36f7c3eb073a24d0d3e49af6990928a2ae04764c06c07d414acd3f743ae9c",
-                "signature": "526517f4603f25ab9ab686c1730f17b5"
-        }
-        */
+//        String body = IoUtil.readUtf8(httpServletRequest.getInputStream());
+        log.info("回调参数:{}", paramMap);
 
-        JSONObject data = JSONObject.parseObject(body);
-        String transactionToken = data.getString("transaction_token");
-        String orderId = data.getString("order_id");// 订单号
-        String amount = data.getString("amount");
-        String currency = data.getString("currency");
-        String coinCode = data.getString("coin_code");
-        String coinAmount = data.getString("coin_amount");
-        String hash = data.getString("hash");//交易的hash值
-        String sign = data.getString("signature");// 签名
+//        JSONObject data = JSONObject.parseObject(body);
+        MapUtil.getStr(paramMap, "transaction_token");
+        String transactionToken = MapUtil.getStr(paramMap, "transaction_token");
+        String orderId = MapUtil.getStr(paramMap, "order_id");// 订单号
+        String amount = MapUtil.getStr(paramMap, "amount");
+        String currency = MapUtil.getStr(paramMap, "currency");
+        String coinCode = MapUtil.getStr(paramMap, "coin_code");
+        String coinAmount = MapUtil.getStr(paramMap, "coin_amount");
+        String hash = MapUtil.getStr(paramMap, "hash");//交易的hash值
+        String sign = MapUtil.getStr(paramMap, "signature");// 签名
 
         WebTopup topup = webTopupService.getOne(new QueryWrapper<WebTopup>().lambda().eq(WebTopup::getOrderNo, orderId).eq(WebTopup::getStatus, 1));
         if (topup == null) {

@@ -4,9 +4,11 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -165,20 +167,20 @@ public class PayController {
         params.put("locale", locale); // 收银台多语言，中文（zh-CN），英文（en-US），默认为中文
         params.put("public_key", publicKey); // 商户 public key
         params.put("signature", sign); // 签名串，安全校验签名串。
-        StringBuilder sb = new StringBuilder();
-        for (String key : params.keySet()) {
-            if (null != params.get(key)) {
-                sb.append(key).append("=").append(params.get(key)).append("&");
-            }
-        }
-        String queryStr = sb.substring(0, sb.length() - 1);
+//        StringBuilder sb = new StringBuilder();
+//        for (String key : params.keySet()) {
+//            if (null != params.get(key)) {
+//                sb.append(key).append("=").append(params.get(key)).append("&");
+//            }
+//        }
+//        String queryStr = sb.substring(0, sb.length() - 1);
 
-        String url = merchant.getTopUrl() + "?" + queryStr;
-        HttpRequest requestPost = HttpUtil.createPost(url);
-        //System.out.println(requestPost);
-        requestPost.contentType("application/x-www-form-urlencoded");
+//        String url = merchant.getTopUrl() + "?" + queryStr;
+        HttpRequest requestPost = HttpUtil.createPost(merchant.getTopUrl()).body(JSON.toJSONString(params), ContentType.JSON.toString());
+        System.out.println(requestPost);
+//        requestPost.contentType("application/x-www-form-urlencoded");
         HttpResponse response = requestPost.execute();
-        //System.out.println(response.body());
+        System.out.println(response.body());
         String body = response.body();
         if (StringUtils.isBlank(body)) {
             return R.error();
