@@ -96,10 +96,11 @@ public class TopupCallbackController {
         /* String signTmp = transactionToken + orderId + amount + currency + coinCode + coinAmount + hash + private key;
          */
 
-        BigDecimal orderMoney = new BigDecimal(amount);
+        BigDecimal orderMoney = new BigDecimal(coinAmount);
         if (topup.getAmount().doubleValue() != orderMoney.doubleValue()) {
             //// 订单金额与实际付款金额不符11
-            topup.setRealAmount(orderMoney);
+            topup.setRealAmount(new BigDecimal(amount));
+            topup.setAmount(orderMoney);
             if (topup.getType().intValue() == 2) {
                 // 充U汇率
                 String rate = webParamsService.getParamsValue("usdt_exchange_rate");
@@ -120,8 +121,8 @@ public class TopupCallbackController {
                         .set(WebTopup::getModifyTime, now)
                         .set(WebTopup::getAmount, topup.getAmount())
                         .set(WebTopup::getRealAmount, topup.getRealAmount())
-                        .set(WebTopup::getPaySign, hash)
-                        .set(WebTopup::getPayOrderNo,transactionToken)
+                        .set(WebTopup::getPaySign, transactionToken)
+                        .set(WebTopup::getPayOrderNo,hash)
         );
         if (!update) {
             throw new Exception("修改订单失败");

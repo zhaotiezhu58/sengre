@@ -1005,7 +1005,7 @@ public class UserController {
         String withdrawNo = IdUtils.randomId();
 
         // 汇率
-        double rate = NumberUtils.toDouble(webParamsService.getParamsValue("usdt_exchange rate"));
+        double rate = NumberUtils.toDouble(webParamsService.getParamsValue("usdt_exchange_rate"));
         // 扣除金额
         webUserService.updateUserBalance(user.getUserName(), money.negate());
 

@@ -205,11 +205,11 @@ public class PayController {
         WebTopup topup = new WebTopup();
         topup.setOrderNo(orderId);
         topup.setUserName(userName);
-        topup.setAmount(new BigDecimal(data.getString("amount")));
+        topup.setAmount(new BigDecimal(data.getString("coin_amount")));
         topup.setRealAmount(realAmount);
         topup.setType(channel.getPayType());
-        topup.setPaySign(sign);//未回调时，先保存订单的签名，回调成功后，将被改成USDT转账的hash值
-        topup.setPayOrderNo(data.getString("token"));//三方没有订单号，但这个值可以查询订单是否支付完成
+        topup.setPaySign(data.getString("token"));//三方token
+        topup.setPayOrderNo(null);//先放空，回调成功后，将被改成USDT转账的hash值
         topup.setPayCurreny(channel.getPayType());
         topup.setIp(ServletUtil.getClientIP(httpServletRequest));
         topup.setMerchantCode(channel.getMerchantCode());
