@@ -319,8 +319,8 @@ public class UserController {
             String yyyyMMdd = DateUtil.format(now, "yyyyMMdd");
             Boolean unlock = redisTemplate.opsForValue().setIfAbsent("user:virtual:" + yyyyMMdd + ":" + existUser.getUserName(), "unlock", 1, TimeUnit.DAYS);
             if (unlock) {
-                BigDecimal unlockAmount = MathUtil.scale(NumberUtil.mul(existUser.getVirtualBalance(), 0.002));
-                if (unlockAmount.doubleValue() >= 10) {
+                BigDecimal unlockAmount = MathUtil.scale(NumberUtil.mul(existUser.getVirtualBalance(), 0.01));
+                if (unlockAmount.doubleValue() >= 1) {
                     webUserService.unlockVirtualBalance(existUser.getUserName(), unlockAmount);
 
                     //
@@ -453,7 +453,7 @@ public class UserController {
     @GetMapping("/virtual/collect")
     public R virtualCollect(HttpServletRequest httpServletRequest) throws Exception {
         String userName = JwtUtils.getUserName(httpServletRequest);
-        return R.error("Exchange unlocked coins after October 1st");
+        return R.error("Para el tiempo de cambio de monedas, preste atención a nuestro tablón de anuncios.");
         //WebUserEntity user = webUserService.getUser(userName);
         //// 收集代币
         //webUserService.collectVirtualBalance(user.getUserName(), user.getUnlockVirtualBalance());
