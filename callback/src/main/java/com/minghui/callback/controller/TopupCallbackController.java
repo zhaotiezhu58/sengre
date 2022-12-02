@@ -47,7 +47,7 @@ public class TopupCallbackController {
     @Autowired
     private WebVirtualRecordService webVirtualRecordService;
 
-    private static final double INVITATION_REWARD = 150;
+    private static final double INVITATION_REWARD = 3;
 
     @Autowired
     private WebParamsService webParamsService;
@@ -207,7 +207,7 @@ public class TopupCallbackController {
      */
     private void invitationReward(WebTopup topup, WebUserEntity user) throws Exception {
         // 500以下没有邀请奖励
-        if (topup.getRealAmount().doubleValue() < 500) {
+        if (topup.getRealAmount().doubleValue() < 20) {
             return;
         }
         // 查询用户是否是首充

@@ -320,7 +320,7 @@ public class UserController {
             Boolean unlock = redisTemplate.opsForValue().setIfAbsent("user:virtual:" + yyyyMMdd + ":" + existUser.getUserName(), "unlock", 1, TimeUnit.DAYS);
             if (unlock) {
                 BigDecimal unlockAmount = MathUtil.scale(NumberUtil.mul(existUser.getVirtualBalance(), 0.002));
-                if (unlockAmount.doubleValue() > 0) {
+                if (unlockAmount.doubleValue() >= 10) {
                     webUserService.unlockVirtualBalance(existUser.getUserName(), unlockAmount);
 
                     //
